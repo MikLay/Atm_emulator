@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">
+            <![CDATA[jdbc:mysql://localhost:3309/atm_server?useSSL=false&serverTimezone=UTC]]></property>
+        <property name="connection.username">MikLay</property>
+        <property name="connection.password">MikLay</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.pool_size">5</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="show_sql">true</property>
+        <mapping class="com.atm.model.dto.ATM"/>
+        <mapping class="com.atm.model.dto.Client"/>
+        <mapping class="com.atm.model.dto.account.DepositAccount"/>
+        <mapping class="com.atm.model.dto.account.CreditAccount"/>
+        <mapping class="com.atm.model.dto.account.BankAccount"/>
+        <mapping class="com.atm.model.dto.account.MainAccount"/>
+        <mapping class="com.atm.model.dto.transaction.Transaction"/>
+        <mapping class="com.atm.model.dto.account.service.Surplie"/>
+        <mapping class="com.atm.model.dto.account.service.AutoPayment"/>
+    </session-factory>
+</hibernate-configuration>
