@@ -3,10 +3,10 @@ package com.atm.model.dao;
 
 import java.util.List;
 
-public interface Dao<Entity, Integer> {
+public interface Dao<Entity, T> {
     void create(Entity entity);
 
-    Entity findById(Integer entityId);
+    Entity findById(T entityId);
 
     void update(Entity entity);
 
