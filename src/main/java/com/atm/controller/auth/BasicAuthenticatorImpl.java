@@ -5,11 +5,13 @@ import com.atm.model.HibernateUtil;
 import com.atm.model.dto.account.BankAccount;
 import com.atm.model.service.BankAccountService;
 import com.sun.net.httpserver.*;
+import lombok.extern.log4j.Log4j;
 import org.hibernate.Transaction;
 
 import java.io.IOException;
 import java.util.Base64;
 
+@Log4j
 public class BasicAuthenticatorImpl extends BasicAuthenticator {
 
     private BankAccountService bankAccountService;
@@ -21,6 +23,7 @@ public class BasicAuthenticatorImpl extends BasicAuthenticator {
 
     @Override
     public Authenticator.Result authenticate(HttpExchange var1) {
+        log.info("[Info] BasicAuthenticator start");
         Headers var2 = var1.getRequestHeaders();
         String var3 = var2.getFirst("Authorization");
         if (var3 == null) {
@@ -40,7 +43,6 @@ public class BasicAuthenticatorImpl extends BasicAuthenticator {
                 int var7 = var6.indexOf(58);
                 String var8 = var6.substring(0, var7);
                 String var9 = var6.substring(var7 + 1);
-                System.out.println("ins");
                 if (this.checkCredentials(var8, var9)) {
                     return new Success(new HttpPrincipal(var8, this.realm));
                 } else {
@@ -49,7 +51,6 @@ public class BasicAuthenticatorImpl extends BasicAuthenticator {
                     return new Failure(401);
                 }
             } else {
-                System.out.println("out");
                 return new Failure(401);
             }
         }
