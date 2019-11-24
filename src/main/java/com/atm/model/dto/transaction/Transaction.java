@@ -11,12 +11,12 @@ import java.util.Objects;
 @Entity
 @Builder(toBuilder = true)
 @Table(name = "transaction")
-@DiscriminatorColumn(name = "transaction_type")
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(value = AccessLevel.PACKAGE)
 @Getter
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
@@ -25,6 +25,7 @@ public class Transaction {
     @Column(name = "transaction_amount")
     private Long transactionAmount;
 
+    @Setter(value = AccessLevel.PUBLIC)
     @Column(name = "transaction_status")
     private Boolean transactionStatus;
 
@@ -33,6 +34,9 @@ public class Transaction {
 
     @Column(name = "transaction_type")
     private String transactionType;
+
+    @Column(name = "transaction_date")
+    private String transactionDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_account_id_from", nullable = true)
@@ -43,7 +47,7 @@ public class Transaction {
     private BankAccount bankAccountTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="transaction_atm_id", nullable = true)
+    @JoinColumn(name = "transaction_atm_id", nullable = true)
     private ATM atm;
 
     @Override

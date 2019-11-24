@@ -29,7 +29,6 @@ public class BankAccount {
     @Column(name = "account_type", nullable = false, length = 250)
     private String accountType;
 
-
     @Column(name = "account_start_date", nullable = false)
     private Date accountStartDate;
 
@@ -42,6 +41,8 @@ public class BankAccount {
     @Column(name = "account_password", nullable = false)
     private String accountPassword;
 
+
+    @Setter(value = AccessLevel.PUBLIC)
     @Column(name = "account_amount", nullable = false)
     private Long accountAmount;
 

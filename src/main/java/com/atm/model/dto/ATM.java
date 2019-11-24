@@ -25,6 +25,7 @@ public class ATM {
     @Column(name = "atm_address")
     private String atmAddress;
 
+    @Setter
     @Column(name = "atm_amount")
     private Long atmAmount;
 

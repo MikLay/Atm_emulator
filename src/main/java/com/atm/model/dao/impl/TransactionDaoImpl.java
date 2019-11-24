@@ -4,12 +4,14 @@ import com.atm.model.HibernateUtil;
 import com.atm.model.dao.TransactionDao;
 import com.atm.model.dto.account.service.Surplie;
 import com.atm.model.dto.transaction.Transaction;
+import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 import java.util.Properties;
 
+@Log4j
 public class TransactionDaoImpl implements TransactionDao {
     private Properties properties;
     private SessionFactory sessionFactory;
@@ -34,15 +36,27 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Override
+    public Integer createWithoutId(Transaction transaction) {
+        log.info("create start with parameters: transaction: " + transaction);
+        System.out.println(transaction.toString());
+        Session session = this.sessionFactory.getCurrentSession();
+        return (Integer) session.save(transaction);
+    }
+
+    @Override
     public void create(Transaction transaction) {
+        log.info("create start with parameters: transaction: " + transaction);
         Session session = this.sessionFactory.getCurrentSession();
         session.save(transaction);
+        log.info("create end");
     }
 
     @Override
     public Transaction findById(Integer entityId) {
+        log.info("findById start with parameters: transaction: " + entityId);
         Session session = this.sessionFactory.getCurrentSession();
         Transaction transaction = session.get(Transaction.class, entityId);
+        log.info("findById end");
         return transaction;
     }
 
