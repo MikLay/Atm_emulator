@@ -15,5 +15,7 @@ public interface TransactionService {
     List<Transaction> getTransactionByAccountTo(Integer transactionIdTo);
 
     Integer createTransaction(String transactionType, Long transactionAmount, Boolean transactionStatus,
-                              Long transactionCommission, BankAccount from, BankAccount to, ATM atm);
+                              Long transactionCommission, BankAccount from, BankAccount to, ATM atm, String dateTime);
+
+    void updateTransaction(Transaction transaction);
 }
