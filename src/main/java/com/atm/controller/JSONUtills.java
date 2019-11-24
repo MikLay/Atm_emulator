@@ -47,6 +47,7 @@ public class JSONUtills {
         jsonObjectTransaction.put("id", transaction.getTransactionId());
         jsonObjectTransaction.put("status", transaction.getTransactionStatus());
         jsonObjectTransaction.put("commission", transaction.getTransactionCommission());
+        jsonObjectTransaction.put("dateTime", transaction.getTransactionDateTime());
         switch (transaction.getTransactionType()) {
             case "WITHDRAWAL":
             case "FILL": {

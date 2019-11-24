@@ -28,13 +28,12 @@ public class TransactionsHandler implements HttpHandler {
         for (com.atm.model.dto.transaction.Transaction transaction : accountTransactions) {
             jsonArray.add(JSONUtills.createJSONTransaction(transaction, cardNumber));
         }
-        System.out.println(jsonArray.toString());
         return jsonArray.toString();
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        log.info("handle start with httpExchange: " + httpExchange);
+        log.info("[Info] TransactionsHandler start with httpExchange: " + httpExchange);
         String cardNumber = httpExchange.getPrincipal().getUsername();
 
 
@@ -53,7 +52,6 @@ public class TransactionsHandler implements HttpHandler {
                 transactions.addAll(bankAccount.getAccountTransactionsTo());
                 response = createJSONTransactions(transactions, bankAccount.getAccountNumber());
                 HttpServerAtm.writeSuccessResponse(httpExchange, response);
-                System.out.println(response);
             }
         } catch (Exception e) {
             e.printStackTrace();

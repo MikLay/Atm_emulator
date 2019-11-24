@@ -49,7 +49,7 @@ public class AuthHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        log.info("handle start with httpExchange: " + httpExchange);
+        log.info("[Info] AuthHandler start with httpExchange: " + httpExchange);
 
         if (HttpServerAtm.addResponses(httpExchange)) return;
 
