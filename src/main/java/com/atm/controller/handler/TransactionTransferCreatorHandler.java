@@ -3,6 +3,8 @@ package com.atm.controller.handler;
 import com.atm.controller.Constants;
 import com.atm.controller.DateTimeUtils;
 import com.atm.controller.HttpServerAtm;
+import com.atm.controller.JSONUtills;
+import com.atm.controller.handler.service.SurplierCheck;
 import com.atm.model.HibernateUtil;
 import com.atm.model.dto.account.BankAccount;
 import com.atm.model.dto.account.CreditAccount;
@@ -19,18 +21,21 @@ import java.util.Map;
 @Log4j
 public class TransactionTransferCreatorHandler implements HttpHandler {
 
-    BankAccountService bankAccountService;
-    TransactionService transactionService;
+    private BankAccountService bankAccountService;
+    private TransactionService transactionService;
+    private SurplierCheck surplierCheck;
 
     public TransactionTransferCreatorHandler(BankAccountService bankAccountService, TransactionService transactionService) {
         this.bankAccountService = bankAccountService;
         this.transactionService = transactionService;
+        this.surplierCheck = new SurplierCheck(bankAccountService, transactionService);
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         log.info("[Info] TransactionTransferCreatorHandler start with httpExchange: " + httpExchange);
 
+        if (HttpServerAtm.addResponses(httpExchange)) return;
 
         Map<String, String> params = HttpServerAtm.queryToMap(httpExchange.getRequestURI().getQuery());
         BankAccount bankAccountSender = null;
@@ -69,6 +74,9 @@ public class TransactionTransferCreatorHandler implements HttpHandler {
             } else if (bankAccountReceiver.getAccountType().equalsIgnoreCase("DEPOSIT")) {
                 response = "No permission for creating transaction to deposit account";
                 HttpServerAtm.writeDataErroResponse(httpExchange, response, 400);
+            } else if (bankAccountReceiver.getAccountNumber().equalsIgnoreCase(bankAccountSender.getAccountNumber())) {
+                response = "You are not allowed to create transaction to the same account";
+                HttpServerAtm.writeDataErroResponse(httpExchange, response, 400);
             } else {
                 Long amount = Long.valueOf(params.get("amount"));
                 long commission = (long) countCommission(bankAccountSender.getAccountType(), bankAccountReceiver.getAccountType(), amount);
@@ -101,9 +109,22 @@ public class TransactionTransferCreatorHandler implements HttpHandler {
                 Long receiverAmount = bankAccountReceiver.getAccountAmount();
                 bankAccountSender.setAccountAmount(senderAmount - transaction.getTransactionAmount() - transaction.getTransactionCommission());
                 bankAccountReceiver.setAccountAmount(receiverAmount + transaction.getTransactionAmount());
+
+                bankAccountService.updateBankAccount(bankAccountReceiver);
+                bankAccountService.updateBankAccount(bankAccountSender);
+
                 transaction.setTransactionStatus(true);
                 transactionService.updateTransaction(transaction);
-                HttpServerAtm.writeSuccessResponse(httpExchange, "OK");
+
+                String response = JSONUtills.createJSONTransaction(transaction, bankAccountSender.getAccountNumber()).toString();
+
+                try {
+                    surplierCheck.checkForSurplies(bankAccountReceiver);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                HttpServerAtm.writeSuccessResponse(httpExchange, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,6 +132,7 @@ public class TransactionTransferCreatorHandler implements HttpHandler {
         } finally {
             updateTransTransaction.commit();
         }
+
 
     }
 
