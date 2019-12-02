@@ -50,8 +50,8 @@ public class BankAccount {
     @JoinColumn(name = "account_client_id", nullable = false)
     private Client account_client;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_surplier_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_surplier_id", referencedColumnName = "surplier_id")
     private Surplie supplier;
 
     @OneToMany(mappedBy = "paymentFrom", cascade = CascadeType.ALL, orphanRemoval = true)

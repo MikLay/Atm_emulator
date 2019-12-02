@@ -18,7 +18,7 @@ public class Surplie {
     @Id
     @Column(name = "surplier_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long surplierId;
+    private Integer surplierId;
 
 
     @Column(name = "surplier_limit")
