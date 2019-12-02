@@ -34,6 +34,9 @@ public class TransactionsHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         log.info("[Info] TransactionsHandler start with httpExchange: " + httpExchange);
+        if (HttpServerAtm.addResponses(httpExchange)) return;
+
+
         String cardNumber = httpExchange.getPrincipal().getUsername();
 
 
