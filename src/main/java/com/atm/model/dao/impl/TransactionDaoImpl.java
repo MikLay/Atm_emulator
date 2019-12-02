@@ -37,7 +37,7 @@ public class TransactionDaoImpl implements TransactionDao {
 
     @Override
     public Integer createWithoutId(Transaction transaction) {
-        log.info("create start with parameters: transaction: " + transaction);
+        log.info("[Info] Create start with parameters: transaction: " + transaction);
         System.out.println(transaction.toString());
         Session session = this.sessionFactory.getCurrentSession();
         return (Integer) session.save(transaction);

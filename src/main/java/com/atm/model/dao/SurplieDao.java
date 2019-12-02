@@ -7,5 +7,4 @@ import java.util.List;
 public interface SurplieDao extends Dao<Surplie, Integer> {
     List<Surplie> getBySender(Integer accountNumber);
 
-
 }
