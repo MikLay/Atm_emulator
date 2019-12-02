@@ -13,8 +13,8 @@ public class JSONUtills {
     public static JSONObject createJSONBankAccount(BankAccount bankAccount) {
         JSONObject jsonObjectBankAccount = new JSONObject();
         jsonObjectBankAccount.put("number", bankAccount.getAccountNumber());
-        jsonObjectBankAccount.put("start_date", bankAccount.getAccountStartDate());
-        jsonObjectBankAccount.put("end_date", bankAccount.getAccountEndDate());
+        jsonObjectBankAccount.put("start_date", bankAccount.getAccountStartDate().toString());
+        jsonObjectBankAccount.put("end_date", bankAccount.getAccountEndDate().toString());
         jsonObjectBankAccount.put("amount", bankAccount.getAccountAmount());
         jsonObjectBankAccount.put("client", createJSONClient(bankAccount.getAccount_client()));
         jsonObjectBankAccount.put("surplier",
@@ -28,6 +28,8 @@ public class JSONUtills {
         jsonObjectSurplie.put("id", surplie.getSurplierId());
         jsonObjectSurplie.put("limit", surplie.getSurplieLimit());
         jsonObjectSurplie.put("toNumber", surplie.getTo().getAccountNumber());
+        jsonObjectSurplie.put("name", surplie.getTo().getAccount_client().getClientFirstName()
+                + " " + surplie.getTo().getAccount_client().getClientLastName());
         return jsonObjectSurplie;
     }
 
@@ -36,7 +38,7 @@ public class JSONUtills {
         jsonObjectClient.put("id", client.getClientId());
         jsonObjectClient.put("firstname", client.getClientFirstName());
         jsonObjectClient.put("lastname", client.getClientLastName());
-        jsonObjectClient.put("birthdate", client.getClientBirthDate());
+        jsonObjectClient.put("birthdate", client.getClientBirthDate().toString());
         jsonObjectClient.put("phone", client.getClientPhoneNumber());
         jsonObjectClient.put("email", client.getClientEmail());
         return jsonObjectClient;
@@ -53,8 +55,7 @@ public class JSONUtills {
             case "FILL": {
                 jsonObjectTransaction.put("type", transaction.getTransactionType());
                 jsonObjectTransaction.put("source", transaction.getAtm().getAtmAddress());
-                jsonObjectTransaction.put("amount", (transaction.getTransactionType()
-                        .equalsIgnoreCase("FILL") ? "+" : "-") + transaction.getTransactionAmount());
+                jsonObjectTransaction.put("amount", transaction.getTransactionAmount());
                 break;
             }
 
