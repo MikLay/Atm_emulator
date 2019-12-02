@@ -10,5 +10,10 @@ public interface SurplierService {
 
     List<Surplie> getByAccount(Integer accountId);
 
-    Integer createSurplie(BankAccount to, BankAccount from, Long  amount);
+    void createSurplie(BankAccount to, BankAccount from, Long amount);
+
+    void updateSurplier(Integer id, BankAccount to, BankAccount from, Long amount);
+
+    void deleteSurplier(Integer id, BankAccount to, BankAccount from, Long amount);
 }
+

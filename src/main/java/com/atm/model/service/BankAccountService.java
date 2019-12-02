@@ -10,4 +10,6 @@ public interface BankAccountService {
     BankAccount getByNumber(String cardNumber);
 
     List<BankAccount> getByClient(Integer clientId);
+
+    void updateBankAccount(BankAccount bankAccount);
 }

@@ -52,5 +52,10 @@ public class BankAccountServiceImpl implements BankAccountService {
         return null;
     }
 
+    @Override
+    public void updateBankAccount(BankAccount bankAccount) {
+        accountDao.update(bankAccount);
+    }
+
 
 }

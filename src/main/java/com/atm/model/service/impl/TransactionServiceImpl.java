@@ -33,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Integer createTransaction(String transactionType, Long transactionAmount, Boolean transactionStatus, Long transactionCommission, BankAccount from, BankAccount to, ATM atm, String dateTime) {
-        return transactionDao.createWithoutId(Transaction.builder().transactionAmount(transactionAmount).transactionCommission(transactionCommission).transactionStatus(transactionStatus).transactionType(transactionType).bankAccountFrom(from).bankAccountTo(to).transactionDateTime(dateTime).build());
+        return transactionDao.createWithoutId(Transaction.builder().transactionAmount(transactionAmount).transactionCommission(transactionCommission).transactionStatus(transactionStatus).transactionType(transactionType).bankAccountFrom(from).bankAccountTo(to).atm(atm).transactionDateTime(dateTime).build());
     }
 
     @Override
